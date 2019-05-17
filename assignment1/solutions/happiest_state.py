@@ -227,7 +227,7 @@ def main():
 
         sentiment = tweet_sentiment(tweet, sentiment_scores)
 
-        state_accumulated_sentiment[us_state["name"]] += sentiment
+        state_accumulated_sentiment[us_state["code"]] += sentiment
 
     sorted_state_accumulated_sentiment = sorted(
         state_accumulated_sentiment.iteritems(),
@@ -235,8 +235,11 @@ def main():
         reverse=True
     )
 
-    for state_name, accumulated_sentiment in sorted_state_accumulated_sentiment:
-        print state_name, accumulated_sentiment
+    if not sorted_state_accumulated_sentiment:
+      exit()
+
+    state_code, accumulated_sentiment = sorted_state_accumulated_sentiment[0]
+    print state_code
 
 
 if __name__ == '__main__':

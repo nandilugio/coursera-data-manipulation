@@ -30,7 +30,7 @@ def main():
 
     sorted_hashtag_counts = sorted(hashtag_counts.iteritems(), key=lambda (k,v): v, reverse=True)
 
-    for (hashtag, count) in sorted_hashtag_counts:
+    for (hashtag, count) in sorted_hashtag_counts[:10]:
         print hashtag.encode("UTF-8"), str(count)
 
 
