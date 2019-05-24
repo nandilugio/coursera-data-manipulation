@@ -101,3 +101,107 @@ MapReduce
     ...
 
 NoSQL
+
+
+################################################################################
+
+Consistent Hashing
+    ...
+Vector Clocks
+    ...
+
+Configurable consistency
+    R: min nodes for successful read
+    W: min nodes for successful write
+    R+W > N => consistency
+    R+W < N => low latency
+
+################################################################################
+
+Document Stores and Extensible Record Stores
+    CouchDB
+        Howe's classification
+            Scales to 1000s: Yes
+            Primary idx: Yes
+            Secondary idxs: Yes
+            Transactions: Record
+            Joins/Analytics: MapReduce
+            Integrity constraints: No
+            Views: Yes
+            Language/Algebra: No
+            Data model: Document
+            Howe's label: filter/MapReduce
+        Data model: Document
+            List of attributes _allowing nesting_
+        Lock free concurrency: Optimistic approach
+            Updates on data that has changed fails
+        No multi-row transactions
+        MapReduce instead of joins
+        Views
+            Materialization of MapReduce results, emitted as other documents, allowing custom keying => re-indexing
+    Google's BigTable (OS equivalent: HBase)
+        Howe's classification
+            Scales to 1000s: Yes
+            Primary idx: Yes
+            Secondary idxs: Yes
+            Transactions: Record
+            Joins/Analytics: Google's MapReduce compatible
+            Integrity constraints: Some
+            Views: No
+            Language/Algebra: No
+            Data model: Extensible record
+            Howe's label: filter/MapReduce
+        Data model: "sparse, distributed, persistent multi-dimensional sorted map"
+            Allows fast random access 
+                (row, col, timestamp) -> cell content
+            Sorted: lexicographically by row key
+            Tablets
+                Contain a key range (lexicographically continuous?)
+                Unit of distribution:
+                    Good when querying contiguous keys
+                    If most queried data pertains to some particular ranges, few servers will get most of the load
+                        (in contrast, e.g. Teradata's hashing distributes data evenly, so access is naturally load-balanced)
+            Families: Groups of columns
+                Basic unit for access control and memory and disk accounting
+Extended NoSQL systems
+    Google's Megastore: evolution over BigTable
+        Howe's classification
+            Scales to 1000s: Yes
+            Primary idx: Yes
+            Secondary idxs: Yes
+            Transactions: Entity group
+            Joins/Analytics: No
+            Integrity constraints: Some
+            Views: No
+            Language/Algebra: Some
+            Data model: Tables
+            Howe's label: filter
+        Argues that loose consistency models complicate application programming
+            Implement transactions over entity groups
+                Entity groups: Records accessed together
+            Synchronous replications
+    Spanner
+        Comes from complaints on BigTable
+            BigTable not good for
+                Complex, evolving schemas
+                Strong consistency in the presence of wide-area replication
+            Spanner's solution: Distributed transactions
+                Programmers better address performance problems as bottlenecks arise, rather than coding around the lack of transactions
+        Howe's classification
+            Scales to 1000s: Yes
+            Primary idx: Yes
+            Secondary idxs: Yes
+            Transactions: Yes
+            Joins/Analytics: ?
+            Integrity constraints: Yes
+            Views: Yes
+            Language/Algebra: Yes
+            Data model: Tables
+            Howe's label: SQL-like
+        Data model: Directory: set of contiguous keys with a shared prefix
+            Tables are interleaved to create a hierarchy
+                Like pre-DB models
+                    Same performance gains, in some particular query path
+                    Same problem: different query paths are problematic
+        TODO: video: Spanner cont'd, Google Systems
+                
