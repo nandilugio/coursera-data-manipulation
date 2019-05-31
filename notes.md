@@ -56,6 +56,29 @@ Data Model
             Slice byte sequences
             ...
 
+
+->
+Abstractions
+  Programming Model
+    Relational algebra is a very frequent approach
+    Collection-at-a-time
+      vs low-level code dealing with records and paralellism
+    Automatic optimization
+      No need to code for it
+      Correct decisions are made for every case (ideally)
+  Computational Model
+    Data-parallel distributed algorithms
+    Falut tolerance
+    Other performance approaches
+      On-disk vs In-Memory
+      Indexes
+      Transactions
+      ...
+  [insert Data Model (from above) here?]
+
+<-
+
+
 RDBMS Systems:
     Pre-relational solutions:
         "Network (proto)databases": Files with "file position pointers" to other records
@@ -116,6 +139,12 @@ Configurable consistency
     R+W > N => consistency
     R+W < N => low latency
 
+Schema-on-
+  Read (Hadoop, etc.)
+    No need to do a huge ETL process upfront
+  Write (RDBMS, etc.)
+    The system handles the schema and storage for optimal querying
+
 ################################################################################
 
 Document Stores and Extensible Record Stores
@@ -152,7 +181,7 @@ Document Stores and Extensible Record Stores
             Data model: Extensible record
             Howe's label: filter/MapReduce
         Data model: "sparse, distributed, persistent multi-dimensional sorted map"
-            Allows fast random access 
+            Allows fast random access
                 (row, col, timestamp) -> cell content
             Sorted: lexicographically by row key
             Tablets
@@ -204,4 +233,67 @@ Extended NoSQL systems
                     Same performance gains, in some particular query path
                     Same problem: different query paths are problematic
         TODO: video: Spanner cont'd, Google Systems
-                
+
+Google File System (GFS)
+  Like HDFS but for Google's Map Reduce
+  Successor: Colosus
+
+################################################################################
+
+ PIG
+  Programming model
+    RA-like but with nested types
+      Optimizer using RA
+  Computational Model
+    MapReduce/Hadoop
+  Data model
+    Schema-on-read
+    Non-relational
+    Types and operations
+      Types: atom, tuple, bag, map
+        Accepts nesting
+      Operations: programing lang like (see Language below)
+  Language
+    Shows clearly the underlying Relational Algebra concepts
+    Commands
+      Regular: load, filter, group, distinct, foreach, flatten...
+      Analytics: cogroup, join, skew...
+
+################################################################################
+
+Spark
+  Storage
+    Resilient Distributed Dataset (RDD)
+      Distributed collection of key-values
+      Memory cached
+        Goes to disk mainly for fault-tolerance reasons
+    Programming model
+      Program directly in a host language (Java/Scala, Python, others?)
+      Transformations (operations)
+        Map & Reduce
+        Also: flatMap, filter, join, partitionBy, zip, etc.
+      Actions: Return values to the host language
+    Computational model
+      Lazy execution
+        Actions trigger lazily executed transformations
+      In-memory execution
+
+
+
+
+
+
+
+
+
+################################################################################
+
+
+TODO: make sense of this hinted classification:
+  Analytics
+  Low-latency micro-updates
+  Analytics with iteration (Pregel)
+
+TODO: Create graph of all tech (check vids: 17.3 Spanner cont'd, 17.4 MapReduce-based Systems)
+
+TODO: Extract the tech classification table!
