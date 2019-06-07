@@ -279,7 +279,58 @@ Spark
       In-memory execution
 
 
+################################################################################
 
+Graphs
+    Model
+        Very basic and ubiquitous
+        Components
+            Vertices (or Nodes)
+            Edges (or Links, directed or not)
+    A possible classification of graph analytics tasks (Bordawekar 2012):
+        Structural algorithms
+            Basic node metrics
+                [in|out]degree(v)
+                    number of in/out edges in v
+                Connection levels
+                    Connected: a reachable from b OR viceversa
+                    Strongly connected: a reachable from b AND viceversa
+                Centrality
+                    Closeness centrality: avg length of all shortest paths that pass through it
+                    Betweeness centrality: fraction of all shortest paths that pass through it
+            Basic graph metrics
+                |V|
+                |E|
+                    Better related to the complexity of the graph
+                max([in|out]degree(v))
+                    Related to how skewed is the frequency distribution of degrees
+                Connectivity coefficient
+                    Min number of nodes to remove to get a disconnected graph
+                        Depends on
+                            Definition of "connected" (strongly con. or just conn.)
+                            Graph is directed?
+                Frequency distribution of degrees
+                    Histogram of degrees vs their frequency
+                    Exponential distribution
+                        n[d] ~= c(1/2)^d
+                        Looks linear in a log/linear plot
+                        Arising from random graphs: repeat(randomly pick 2 v and connect them)
+                        Easy to work with, but
+                        Not frequently occurring in nature
+                    Zipf distribution
+                        n[d] ~= 1/(d^x)
+                        Looks linear in a log/log plot (power log? what is that?)
+                        Arising from human-generated data
+                            Letters in alphabet
+                            Words in vocabulary
+                            My intuition: when some vertices are "magnetic" (popular people in social networks, etc.)
+                            Bowtie structure of the web
+                                IN>(SCC)<OUT
+                                    Some Strongly Connected Component where all vertices can reach other vertices
+                                    Some IN vertices that can reach the SCC but are not reachable from there
+                                    Some OUT vertices that can be reached from the SCC but can reach it themselves
+        Traversal algorithms
+        Pattern-matching algorithms
 
 
 
